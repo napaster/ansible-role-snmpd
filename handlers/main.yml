@@ -1,0 +1,8 @@
+---
+- name: Restart snmpd
+  service:
+    name: "{{ hostvars[inventory_hostname]['snmpd_service'] }}"
+    state: "restarted"
+  when:
+  - "hostvars[inventory_hostname]['snmpd_restart'] is defined"
+  - "hostvars[inventory_hostname]['snmpd_restart'] == 'true'"

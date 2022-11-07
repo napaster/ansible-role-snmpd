@@ -1,0 +1,27 @@
+{{ '## ' + 'snmpd.conf' }}
+{{ '# ' + ansible_managed }}
+{{ '# ' + 'Do not edit manually' }}
+
+{% for s in hostvars[inventory_hostname]['snmpd'] %}
+{% for ss in s.system %}
+{% if ss.rocommunity is defined and ss.rocommunity != '' %}
+{{ 'rocommunity' + ' ' + ss.rocommunity }}
+{% endif %}
+{% if ss.syslocation is defined and ss.syslocation != '' %}
+{{ 'syslocation' + ' \"' + ss.syslocation + '\"' }}
+{% endif %}
+{% if ss.syscontact is defined and ss.syscontact != '' %}
+{{ 'syscontact' + ' ' + ss.syscontact }}
+{% endif %}
+{% endfor %}
+{% for sa in s.agent %}
+{% if sa.agentaddress is defined and sa.agentaddress != '' %}
+{{ 'agentaddress' + ' ' + sa.agentaddress }}
+{% endif %}
+{% endfor %}
+{% if s.extend is defined %}
+{% for se in s.extend %}
+{{ 'extend' + ' ' + se }}
+{% endfor %}
+{% endif %}
+{% endfor %}

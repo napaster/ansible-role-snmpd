@@ -1,0 +1,10 @@
+---
+- import_tasks: pre_requisite.yml
+- include_tasks: packages.yml
+  when:
+  - "hostvars[inventory_hostname]['snmpd_install_package'] is defined"
+  - "hostvars[inventory_hostname]['snmpd_install_package'] != ''"
+- include_tasks: deploy_snmpd.yml
+  when:
+  - "hostvars[inventory_hostname]['snmpd'] is defined"
+  - "hostvars[inventory_hostname]['snmpd'] != ''"

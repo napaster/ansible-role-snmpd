@@ -1,0 +1,5 @@
+---
+snmpd_enable: 'true'
+snmpd_restart: 'true'
+snmpd_install_package: 'true'
+snmpd: []

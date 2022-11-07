@@ -1,0 +1,18 @@
+---
+- name: snmpd | Deploy snmpd configuration
+  template:
+    src: "snmpd.j2"
+    dest: "{{
+      hostvars[inventory_hostname]['snmpd_conf_dest'] ~ '/' ~ 'snmpd.conf' }}"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+  notify:
+  - "Restart snmpd"
+- name: snmpd | Enable snmpd service
+  service:
+    name: "{{ hostvars[inventory_hostname]['snmpd_service'] }}"
+    enabled: "yes"
+  when:
+  - "hostvars[inventory_hostname]['snmpd_enable'] is defined"
+  - "hostvars[inventory_hostname]['snmpd_enable'] == 'true'"

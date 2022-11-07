@@ -1,0 +1,4 @@
+---
+snmpd_service: 'snmpd'
+snmpd_conf_dest: '/etc/snmp'
+snmpd_package: 'snmp'

@@ -1,0 +1,14 @@
+---
+- name: snmpd | Add the OS specific varibles
+  include_vars: "{{
+    hostvars[inventory_hostname]['ansible_os_family'] + '.yml' }}"
+- name: snmpd | Make snmpd directory
+  file:
+    path: "{{ hostvars[inventory_hostname]['snmpd_conf_dest'] }}"
+    state: "directory"
+    owner: "root"
+    group: "root"
+    mode: "0755"
+  when:
+  - "hostvars[inventory_hostname]['snmpd'] is defined"
+  - "hostvars[inventory_hostname]['snmpd'] != ''"
