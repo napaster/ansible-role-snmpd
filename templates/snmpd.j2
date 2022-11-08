@@ -4,7 +4,23 @@
 
 {% for s in hostvars[inventory_hostname]['snmpd'] %}
 {% for ss in s.system %}
-{% if ss.rocommunity is defined and ss.rocommunity != '' %}
+{% if ss.rocommunity is defined and ss.rocommunity != '' and ss.network is defined and ss.network != '' %}
+{% if ss.network is string %}
+{{ 'rocommunity' + ' ' + ss.rocommunity + ' ' + ss.network | ansible.utils.ipaddr() }}
+{% elif ss.network is sequence %}
+{% for ji in ss.network %}
+{% if loop.first %}
+{{ '' }}
+{% endif %}
+{% if ji | ansible.utils.ipaddr() %}
+{{ 'rocommunity' + ' ' + ss.rocommunity + ' ' + ji }}
+{% endif %}
+{% if loop.last %}
+{{ '' }}
+{% endif %}
+{% endfor %}
+{% endif %}
+{% else %}
 {{ 'rocommunity' + ' ' + ss.rocommunity }}
 {% endif %}
 {% if ss.syslocation is defined and ss.syslocation != '' %}
